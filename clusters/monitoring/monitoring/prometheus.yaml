@@ -33,17 +33,17 @@ spec:
       prometheusSpec:
         replicas: 1
         securityContext:
+          runAsUser: 65534
+          runAsGroup: 65534
           fsGroup: 65534
+          runAsNonRoot: true
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: manual
+              storageClassName: standard  # Use Kind's default storage class
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
                   storage: 10Gi
-            selector:
-              matchLabels:
-                app: prometheus
     grafana:
       enabled: false  # We'll deploy Grafana separately
