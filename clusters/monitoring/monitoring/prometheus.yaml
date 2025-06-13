@@ -40,10 +40,17 @@ spec:
         storageSpec:
           volumeClaimTemplate:
             spec:
-              storageClassName: standard  # Use Kind's default storage class
+              storageClassName: standard # Use Kind's default storage class
               accessModes: ["ReadWriteOnce"]
               resources:
                 requests:
                   storage: 10Gi
+      # --- ADDED/MODIFIED SECTION FOR PROMETHEUS SERVICE ---
+      service:
+        type: NodePort
+        nodePort: 30080 # This sets the NodePort to 30080
+        port: 9090      # This sets the ClusterIP service port
+        targetPort: 9090 # This sets the target port on the pod
+    # --- END ADDED/MODIFIED SECTION ---
     grafana:
-      enabled: false  # We'll deploy Grafana separately
+      enabled: false # We'll deploy Grafana separately
