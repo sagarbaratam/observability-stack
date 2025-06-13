@@ -1,3 +1,4 @@
+# Save this as ingress-nginx-helmrelease.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -32,4 +33,7 @@ spec:
     controller:
       service:
         type: NodePort
-        
+        # Explicitly set the nodePorts to match your Kind hostPorts
+        nodePorts:
+          http: 30080 # This matches hostPort in Kind config
+          https: 30443 # This matches hostPort in Kind config
