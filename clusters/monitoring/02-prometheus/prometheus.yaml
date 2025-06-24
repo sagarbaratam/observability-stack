@@ -53,12 +53,6 @@ spec:
         ruleSelectorNilUsesHelmValues: false
         probeSelectorNilUsesHelmValues: false
         resources: {}
-        containers:
-          - name: configmap-reload
-            image: quay.io/prometheus-operator/prometheus-config-reloader:v0.82.0
-            imagePullPolicy: IfNotPresent
-            args:
-              - --web.enable-lifecycle
     alertmanager:
       enabled: true
       service:
