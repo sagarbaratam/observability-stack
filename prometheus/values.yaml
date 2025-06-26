@@ -37,6 +37,8 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
+          storageClassName: standard
+          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 2Gi
