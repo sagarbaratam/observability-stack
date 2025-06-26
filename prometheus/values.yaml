@@ -16,6 +16,7 @@ prometheus:
       fsGroup: 65534
       runAsNonRoot: true
     storageSpec:
+      storageClassName: standard
       volumeClaimTemplate:
         spec:
           storageClassName: standard
