@@ -6,4 +6,5 @@ resources:
 - ../00-namespace
 #- ../01-ingress-controller
 - ../02-prometheus
+- ../04-loki
 #- ../03-ingress-routes
