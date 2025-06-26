@@ -1,9 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-resources:
-- gotk-components.yaml
-- gotk-sync.yaml
-#- ../01-ingress-controller
-- ../02-prometheus
-- ../04-loki
-#- ../03-ingress-routes
