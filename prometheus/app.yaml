@@ -6,11 +6,12 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/sagarbaratam/observability-stack.git
-    targetRevision: main
-    path: prometheus
-    directory:
-      recurse: true
+    repoURL: https://prometheus-community.github.io/helm-charts
+    chart: kube-prometheus-stack
+    targetRevision: 48.1.1
+    helm:
+      valueFiles:
+        - https://raw.githubusercontent.com/sagarbaratam/observability-stack/main/prometheus/values.yaml
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
