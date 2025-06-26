@@ -17,13 +17,10 @@ prometheus:
       runAsNonRoot: true
     storageSpec:
       storageClassName: standard
-      volumeClaimTemplate:
-        spec:
-          storageClassName: standard
-          accessModes: ["ReadWriteOnce"]
-          resources:
-            requests:
-              storage: 8Gi
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 8Gi
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     ruleSelectorNilUsesHelmValues: false
