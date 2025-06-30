@@ -10,8 +10,69 @@ spec:
     chart: kube-prometheus-stack
     targetRevision: 48.1.1
     helm:
-      valueFiles:
-        - https://raw.githubusercontent.com/sagarbaratam/observability-stack/main/prometheus/values.yaml
+      values: |
+        rbac:
+          create: true
+        podSecurityPolicy:
+          enabled: false
+        prometheus:
+          enabled: true
+          service:
+            type: NodePort
+            nodePort: 30000
+          prometheusSpec:
+            replicas: 1
+            retention: 15d
+            securityContext:
+              runAsUser: 65534
+              runAsGroup: 65534
+              fsGroup: 65534
+              runAsNonRoot: true
+            storageSpec:
+              storageClassName: standard
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 8Gi
+            podMonitorSelectorNilUsesHelmValues: false
+            serviceMonitorSelectorNilUsesHelmValues: false
+            ruleSelectorNilUsesHelmValues: false
+            probeSelectorNilUsesHelmValues: false
+            resources: {}
+        alertmanager:
+          enabled: true
+          service:
+            type: NodePort
+            nodePort: 30003
+          alertmanagerSpec:
+            storage:
+              volumeClaimTemplate:
+                spec:
+                  storageClassName: standard
+                  accessModes: ["ReadWriteOnce"]
+                  resources:
+                    requests:
+                      storage: 2Gi
+            securityContext:
+              runAsUser: 65534
+              runAsGroup: 65534
+              fsGroup: 65534
+              runAsNonRoot: true
+        grafana:
+          enabled: false
+        kube-state-metrics:
+          enabled: true
+        prometheus-node-exporter:
+          enabled: true
+          rbac:
+            pspEnabled: false
+          containerSecurityContext:
+            allowPrivilegeEscalation: false
+        prometheus-pushgateway:
+          enabled: true
+          service:
+            annotations:
+              prometheus.io/probe: pushgateway
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
