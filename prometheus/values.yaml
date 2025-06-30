@@ -16,11 +16,13 @@ prometheus:
       fsGroup: 65534
       runAsNonRoot: true
     storageSpec:
-      storageClassName: manual
-      accessModes: ["ReadWriteOnce"]
-      resources:
-        requests:
-          storage: 8Gi
+      volumeClaimTemplate:
+        spec:
+          storageClassName: manual
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 8Gi
     podMonitorSelectorNilUsesHelmValues: false
     serviceMonitorSelectorNilUsesHelmValues: false
     ruleSelectorNilUsesHelmValues: false
@@ -35,8 +37,6 @@ alertmanager:
     storage:
       volumeClaimTemplate:
         spec:
-          storageClassName: manual
-          accessModes: ["ReadWriteOnce"]
           resources:
             requests:
               storage: 2Gi
