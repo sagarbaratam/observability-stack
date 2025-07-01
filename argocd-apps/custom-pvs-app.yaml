@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: custom-prometheus-pvs
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sagarbaratam/observability-stack.git
+    targetRevision: main
+    path: custom-pvs # Path to your custom PV YAMLs
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: monitoring # Or where you want these PVs to live
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
