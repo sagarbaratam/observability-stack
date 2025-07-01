@@ -50,6 +50,7 @@ spec:
             storage:
               volumeClaimTemplate:
                 spec:
+                  storageClassName: manual
                   resources:
                     requests:
                       storage: 2Gi
