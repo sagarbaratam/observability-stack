@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack 
+  name: observability-stack 
   namespace: argocd          
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -16,7 +16,7 @@ spec:
         - my-custom-values.yaml 
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring 
+    namespace: obs-monitoring 
   syncPolicy:
     automated:
       prune: true
