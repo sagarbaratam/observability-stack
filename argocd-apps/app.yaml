@@ -1,86 +1,25 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kube-prometheus-stack
-  namespace: argocd
+  name: kube-prometheus-stack 
+  namespace: argocd          
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
   source:
-    repoURL: https://prometheus-community.github.io/helm-charts # THIS IS THE CORRECT REPO URL for the chart
-    chart: kube-prometheus-stack                               # The name of the chart in that repo
-    targetRevision: "58.0.0" # <--- IMPORTANT: Pin to a specific, stable chart version!
+    repoURL: https://github.com/sagarbaratam/observability-stack.git 
+    targetRevision: HEAD 
+    path: charts/kube-prometheus-stack 
     helm:
-      values: |
-        rbac:
-          create: true
-        podSecurityPolicy:
-          enabled: false
-        prometheus:
-          enabled: true
-          service:
-            type: NodePort
-            nodePort: 30000
-          prometheusSpec:
-            replicas: 1
-            retention: 15d
-            securityContext:
-              runAsUser: 65534
-              runAsGroup: 65534
-              fsGroup: 65534
-              runAsNonRoot: true
-            storageSpec:
-              volumeClaimTemplate:
-                spec:
-                  storageClassName: manual
-                  accessModes: ["ReadWriteOnce"]
-                  resources:
-                    requests:
-                      storage: 8Gi
-            podMonitorSelectorNilUsesHelmValues: false
-            serviceMonitorSelectorNilUsesHelmValues: false
-            ruleSelectorNilUsesHelmValues: false
-            probeSelectorNilUsesHelmValues: false
-            resources: {}
-        alertmanager:
-          enabled: true
-          service:
-            type: NodePort
-            nodePort: 30003
-          alertmanagerSpec:
-            storage:
-              volumeClaimTemplate:
-                spec:
-                  storageClassName: manual
-                  accessModes: ["ReadWriteOnce"]
-                  resources:
-                    requests:
-                      storage: 2Gi
-            securityContext:
-              runAsUser: 65534
-              runAsGroup: 65534
-              fsGroup: 65534
-              runAsNonRoot: true
-        grafana:
-          enabled: false
-        kube-state-metrics:
-          enabled: true
-        prometheus-node-exporter:
-          enabled: true
-          rbac:
-            pspEnabled: false
-          containerSecurityContext:
-            allowPrivilegeEscalation: false
-        prometheus-pushgateway:
-          enabled: true
-          service:
-            annotations:
-              prometheus.io/probe: pushgateway
+      valueFiles:
+        - charts/kube-prometheus-stack/my-custom-values.yaml 
   destination:
     server: https://kubernetes.default.svc
-    namespace: monitoring
+    namespace: monitoring 
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
     syncOptions:
-      - CreateNamespace=true
+      - CreateNamespace=true 
