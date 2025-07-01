@@ -13,7 +13,7 @@ spec:
     path: charts/kube-prometheus-stack 
     helm:
       valueFiles:
-        - charts/kube-prometheus-stack/my-custom-values.yaml 
+        - my-custom-values.yaml 
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring 
