@@ -10,4 +10,4 @@ spec:
   storageClassName: manual
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: /mnt/data/alertmanager
+    path: /mnt/data/prometheus-alertmanager
