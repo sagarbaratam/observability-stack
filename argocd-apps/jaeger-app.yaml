@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: jaeger
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://jaegertracing.github.io/helm-charts
+    chart: jaeger
+    targetRevision: 0.71.10
+    helm:
+      values: |
+        collector:
+          enabled: true
+        query:
+          service:
+            type: NodePort
+            nodePort: 30006
+        agent:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: obs-monitoring
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
