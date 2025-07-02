@@ -17,6 +17,7 @@ spec:
         allInOne:
           enabled: true
           image:
+            repository: jaegertracing/jaeger
             tag: "1.53"
           service:
             type: NodePort
